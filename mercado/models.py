@@ -1,11 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import  AbstractUser
 
-class Usuario(AbstractUser):
+
+class usuario(AbstractUser):
     email = models.EmailField(unique=True)
-    pass
-
-
 
 class Produto(models.Model):
     nome = models.CharField(max_length=30)
@@ -17,7 +15,7 @@ class Produto(models.Model):
 
 
 class Pedido(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(usuario, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.IntegerField()
 
