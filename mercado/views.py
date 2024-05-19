@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
 
-from .models import  Produto, Pedido
+from .models import Produto, Pedido, usuario
 from .serializers import UsuarioSerializer, ProdutoSerializer, PedidoSerializer
 from rest_framework.authtoken.models import Token
 
@@ -36,6 +36,11 @@ class UsuarioProfileView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
+class UsuarioDetailView(generics.RetrieveAPIView):
+    queryset = usuario.objects.all()
+    serializer_class = UsuarioSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 # Gerenciamento de produtos
 class ProdutoCreateView(generics.CreateAPIView):
     serializer_class = ProdutoSerializer

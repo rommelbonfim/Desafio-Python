@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group, Permission
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = usuario
-        fields = ['id', 'username', 'password', 'email']
+        fields = ['id', 'username', 'password', 'email', 'first_name', 'last_name']
 
     def create(self, validated_data):
         user = usuario.objects.create_user(**validated_data)
@@ -38,7 +38,7 @@ class PedidoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pedido
-        fields = ['itens']
+        fields = ['id','itens']
 
     def create(self, validated_data):
         user = self.context['request'].user
