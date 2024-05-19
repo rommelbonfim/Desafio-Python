@@ -3,7 +3,6 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 from mercado import views
-from mercado.views import UsuarioDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,7 +11,6 @@ urlpatterns = [
     path('usuarios/signup/', views.UsuarioCreateView.as_view(), name='usuario-signup'),
     path('usuarios/login/', views.UsuarioLoginView.as_view(), name='usuario-login'),
     path('usuarios/profile/', views.UsuarioProfileView.as_view(), name='usuario-profile'),
-    path('usuarios/<int:pk>/', UsuarioDetailView.as_view(), name='usuario-detail'),
 
     # Gerenciamento de itens
     path('produtos/', views.ProdutoListView.as_view(), name='produto-list'),
