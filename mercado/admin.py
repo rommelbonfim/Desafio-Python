@@ -6,11 +6,11 @@ from .models import usuario, Produto, Pedido
 
 # Definindo uma classe UserAdmin personalizada
 class UsuarioAdmin(UserAdmin):
-    list_display = ('username', 'email')
+    list_display = ('username', 'email', 'first_name')
     fieldsets = UserAdmin.fieldsets + (
         (None, {'fields': ('email',)}),
     )
-    search_fields = ('username', 'email')
+    search_fields = ('username', 'email', 'first_name')
 
 
 admin.site.register(usuario, UserAdmin)
