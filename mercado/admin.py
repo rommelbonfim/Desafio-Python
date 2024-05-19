@@ -23,7 +23,7 @@ class ProdutoAdmin(admin.ModelAdmin):
 # Registrando o modelo de Pedido
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ('usuario','produto')
+    list_display = ('usuario',)
     list_filter = ('usuario',)
     search_fields = ('usuario__username', 'usuario__email')
 

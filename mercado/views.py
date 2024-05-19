@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.shortcuts import render
 
 from rest_framework import generics, status
@@ -74,7 +74,13 @@ class PedidoListView(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
-        return Pedido.objects.filter(usuario=self.request.user)
+        User = get_user_model()
+        user = self.request.user
+        if user.is_authenticated:
+            return Pedido.objects.filter(usuario__in=User.objects.filter(id=user.id))
+        return Pedido.objects.none()
+
+
 
 class PedidoDetailView(generics.RetrieveAPIView):
     serializer_class = PedidoSerializer

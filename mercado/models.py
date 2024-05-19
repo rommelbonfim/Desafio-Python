@@ -16,8 +16,8 @@ class Produto(models.Model):
 
 class Pedido(models.Model):
     usuario = models.ForeignKey(usuario, on_delete=models.CASCADE)
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    quantidade = models.IntegerField()
+
+
 
     def __str__(self):
      return f"Pedido #{self.id} - Usuario: {self.usuario.username}"
