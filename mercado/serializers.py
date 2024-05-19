@@ -24,42 +24,25 @@ class UsuarioSerializer(serializers.ModelSerializer):
 class ProdutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produto
-        fields = '__all__'
-
-class ProdutoNomeRelatedField(serializers.RelatedField):
-    def to_representation(self, value):
-        return value.nome
-
-    def to_internal_value(self, data):
-        try:
-            produto = Produto.objects.get(nome=data)
-        except Produto.DoesNotExist:
-            raise serializers.ValidationError('Produto não encontrado')
-        return produto
+        fields = ['id', 'nome', 'preco']
 
 class ItemPedidoSerializer(serializers.ModelSerializer):
- produto_nome = serializers.CharField(source='produto.nome', read_only=True)
+    produto = ProdutoSerializer(read_only=True)
 
- class Meta:
-    model = ItemPedido
-    fields = ['produto', 'produto_nome', 'quantidade']
-
- def create(self, validated_data):
-    produto = validated_data.pop('produto')
-    quantidade = validated_data.pop('quantidade')
-    pedido = self.context['pedido']
-    item_pedido = ItemPedido.objects.create(pedido=pedido, produto=produto, quantidade=quantidade)
-    return item_pedido
+    class Meta:
+        model = ItemPedido
+        fields = ['produto', 'quantidade']
 
 class PedidoSerializer(serializers.ModelSerializer):
     itens = ItemPedidoSerializer(many=True, source='itens_pedido', read_only=True)
 
     class Meta:
         model = Pedido
-        fields = ['id','itens']
+        fields = ['itens']
 
     def create(self, validated_data):
-        pedido = Pedido.objects.create(usuario=self.context['request'].user)
+        user = self.context['request'].user
+        pedido = Pedido.objects.create(usuario=user)
         itens_data = self.context.get('view').request.data.get('itens', [])
 
         for item_data in itens_data:
