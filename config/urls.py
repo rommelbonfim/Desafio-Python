@@ -1,22 +1,28 @@
-"""
-URL configuration for config project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
+from mercado import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Gerenciamento de usuários
+    path('usuarios/signup/', views.UsuarioCreateView.as_view(), name='usuario-signup'),
+    path('usuarios/login/', views.UsuarioLoginView.as_view(), name='usuario-login'),
+    path('usuarios/profile/', views.UsuarioProfileView.as_view(), name='usuario-profile'),
+
+    # Gerenciamento de itens
+    path('produtos/', views.ProdutoListView.as_view(), name='produto-list'),
+    path('produtos/create/', views.ProdutoCreateView.as_view(), name='produto-create'),
+    path('produtos/<int:pk>/update/', views.ProdutoUpdateView.as_view(), name='produto-update'),
+    path('produtos/<int:pk>/delete/', views.ProdutoDeleteView.as_view(), name='produto-delete'),
+
+    # Gestão de Pedidos
+    path('pedidos/', views.PedidoListView.as_view(), name='pedido-list'),
+    path('pedidos/create/', views.PedidoCreateView.as_view(), name='pedido-create'),
+    path('pedidos/<int:pk>/', views.PedidoDetailView.as_view(), name='pedido-detail'),
+
+    # Obter token de autenticação
+    path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
 ]

@@ -1,26 +1,32 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import render
 
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-from .models import usuario, Produto, Pedido
+from rest_framework.views import APIView
+
+from .models import  Produto, Pedido
 from .serializers import UsuarioSerializer, ProdutoSerializer, PedidoSerializer
+from rest_framework.authtoken.models import Token
 
 # Gerenciamento de usuários
 class UsuarioCreateView(generics.CreateAPIView):
     serializer_class = UsuarioSerializer
 
-class UsuarioLoginView(generics.GenericAPIView):
-    serializer_class = UsuarioSerializer
-
+class UsuarioLoginView(APIView):
     def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.validate_user(request.data)
-            if user:
-                return Response({'token': user.auth_token.key})
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key})
+        else:
+            return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class UsuarioProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UsuarioSerializer
