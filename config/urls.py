@@ -13,7 +13,7 @@ schema_view = get_schema_view(
         default_version='v1',
         description="Aplicação para gerenciamento de produtos, pedidos e usuários.",
         terms_of_service="#",
-        contact=openapi.Contact(email="c3po@alura.com.br"),
+        contact=openapi.Contact(email="rommelbonfim.dev@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
