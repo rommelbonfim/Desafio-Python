@@ -21,7 +21,7 @@ Para a execução deste projeto é necessária a instalação do python 3.12.3.
 * 4. Executar as migrações com o comando: python manage.py migrate
 * 5. Criar um super usuario para acessar o django admin com o comando: python manage.py createsuperuser    
 * 6. Executar o servidor de desenvolvimento com o comando: python manage.py runserver
-* 7. acessar as documentações no modelo swagger ou redoc nas urls http://127.0.0.1:8000/swagger/ e http://127.0.0.1:8000/redoc/ respectivamente
+* 7. acessar as documentações que mostram como autenticar um usuario e todas as outras requisições no modelo swagger ou redoc nas urls http://127.0.0.1:8000/swagger/ e http://127.0.0.1:8000/redoc/ respectivamente.
 ## ✒️ Autor
 
 * **Rommel Bonfim** -  [Rommel Bonfim](https://github.com/rommelbonfim)
